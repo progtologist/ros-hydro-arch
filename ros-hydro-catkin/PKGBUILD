@@ -1,0 +1,40 @@
+pkgdesc="ROS - Low-level build system macros and infrastructure."
+url='http://www.ros.org/'
+
+pkgname='ros-hydro-catkin'
+pkgver='release'
+arch=('i686' 'x86_64')
+pkgrel=1
+license=('BSD')
+makedepends=(ros-build-tools)
+groups=('ros-hydro-base' 'ros-hydro-desktop' 'ros-hydro-desktop-full')
+depends=(cmake python2-nose python2-empy gtest python2-catkin_pkg-git)
+
+_gitroot=https://github.com/ros-gbp/catkin-release.git
+_gitname=catkin
+_gitversion=release/hydro/catkin
+
+build() {
+  msg "Connecting to Git server...."
+  [ -f /opt/ros/hydro/setup.bash ] && source /opt/ros/hydro/setup.bash
+  if [ -d ${srcdir}/${_gitname} ]; then
+    cd ${srcdir}/${_gitname}
+    git fetch origin
+    git reset --hard ${_gitversion}
+  else
+    git clone -b ${_gitversion} ${_gitroot} ${srcdir}/${_gitname}
+  fi
+
+  cd ${srcdir}
+  [ -d ${srcdir}/build ] || mkdir ${srcdir}/build
+  cd ${srcdir}/build
+  msg "Patching python scripts"
+  /usr/share/ros-build-tools/fix-python-scripts.sh ${srcdir}/${_gitname}
+  cmake ${srcdir}/${_gitname} -DCMAKE_INSTALL_PREFIX=/opt/ros/hydro -DPYTHON_EXECUTABLE=/usr/bin/python2 -DPYTHON_INCLUDE_DIR=/usr/include/python2.7 -DPYTHON_LIBRARY=/usr/lib/libpython2.7.so -DSETUPTOOLS_DEB_LAYOUT=OFF
+  make
+}
+
+package() {
+  cd "${srcdir}/build"
+  make DESTDIR="${pkgdir}/" install
+}
