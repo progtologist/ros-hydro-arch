@@ -8,7 +8,9 @@ pkgrel=1
 license=('BSD')
 makedepends=(ros-build-tools)
 groups=('ros-hydro-base' 'ros-hydro-desktop' 'ros-hydro-desktop-full')
-depends=(cmake python2-nose python2-empy gtest python2-catkin_pkg-git)
+depends=(cmake python2-nose python2-empy gtest python-catkin_pkg-git)
+provides=('ros-hydro-catkin')
+conflicts=('ros-hydro-catkin')
 
 _gitroot=https://github.com/ros-gbp/catkin-release.git
 _gitname=catkin
