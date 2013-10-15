@@ -4,9 +4,9 @@ pkgdesc='Utilities for building arch packages for ROS stacks.'
 url=http://www.ros.org
 
 pkgname='ros-build-tools'
-pkgver='0.0.1'
+pkgver='release'
 arch=('i686' 'x86_64')
-pkgrel=3
+pkgrel=1
 license=('BSD')
 makedepends=()
 depends=()
