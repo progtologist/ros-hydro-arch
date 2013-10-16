@@ -1,1 +1,3 @@
-ros-generic-python-applications
+python2-catkin_pkg-git
+python2-wstool-git
+ros-build-tools
